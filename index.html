@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pauta de Reunião</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pauta de Reunião</h1>
+        <form id="pautaForm">
+            <input type="text" id="topicoInput" placeholder="Adicionar tópico" required>
+            <textarea id="descricaoInput" placeholder="Adicionar descrição" required></textarea>
+            <button type="submit">Adicionar</button>
+        </form>
+        
+        <ul id="topicosList">
+            <!-- Lista de tópicos aparecerá aqui -->
+        </ul>
+        <button id="savePdfBtn">Salvar em PDF</button>
+    </div>
+    
+    <!-- Importando a biblioteca jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Script personalizado -->
+    <script src="script.js"></script>
+</body>
+</html>
