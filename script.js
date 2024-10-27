@@ -1,3 +1,13 @@
+// Função para adicionar quebra de linha para descrições longas
+function quebraDeLinha(doc, texto, x, y, maxWidth) {
+    const linhas = doc.splitTextToSize(texto, maxWidth);
+    linhas.forEach((linha) => {
+        doc.text(linha, x, y);
+        y += 5; // Ajuste o espaçamento entre as linhas de descrição
+    });
+    return y;
+}
+
 // Adiciona tópicos à pauta
 document.getElementById('pautaForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -55,30 +65,35 @@ document.getElementById('savePdfBtn').addEventListener('click', function() {
     topicos.forEach((topico, index) => {
         const titulo = topico.querySelector('span').textContent;
         const descricao = topico.querySelector('.descricao').textContent; // Captura a descrição
-        
+
         doc.setFontSize(12);
         doc.text(`${index + 1}. ${titulo}`, 20, y);
         y += 5;
 
         if (descricao) {
             doc.setFontSize(10);
-            doc.text(`Descrição: ${descricao}`, 30, y);
+            // Chama a função para adicionar a descrição com quebras de linha automáticas
+            y = quebraDeLinha(doc, `Descrição: ${descricao}`, 30, y, 160);
             y += 5;
         }
 
-        // Adiciona uma linha em branco entre os tópicos
-        y += 5;
-
-        // Adiciona uma linha horizontal entre os tópicos
+        // Adiciona uma linha horizontal automaticamente após o conteúdo da descrição
         doc.setLineWidth(0.5);
         doc.line(20, y, 190, y);
-        y += 5;
+        y += 10;
+
+        // Verifica se está no limite da página para adicionar uma nova
+        if (y > 270) { // margem inferior da página
+            doc.addPage();
+            y = 20; // Reinicia a posição `y` na nova página
+        }
     });
 
-    // Adiciona um rodapé
+    // Adiciona o rodapé com a data e hora de geração do PDF
+    const dataAtual = new Date().toLocaleString();
     doc.setFontSize(10);
-    doc.text('Gerado em: ' + new Date().toLocaleString(), 20, y);
-    
+    doc.text('Gerado em: ' + dataAtual, 20, y);
+
     // Salva o PDF
-    doc.save('pauta.pdf'); 
+    doc.save('pauta.pdf');
 });
