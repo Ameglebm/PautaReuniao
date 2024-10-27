@@ -66,14 +66,21 @@ document.getElementById('savePdfBtn').addEventListener('click', function() {
         const titulo = topico.querySelector('span').textContent;
         const descricao = topico.querySelector('.descricao').textContent; // Captura a descrição
 
-        doc.setFontSize(12);
+        // Define a fonte em negrito e aumenta o tamanho para o título
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
         doc.text(`${index + 1}. ${titulo}`, 20, y);
-        y += 5;
+        y += 8;
 
         if (descricao) {
+            // Define a fonte para negrito e tamanho menor para o título "Descrição"
             doc.setFontSize(10);
-            // Chama a função para adicionar a descrição com quebras de linha automáticas
-            y = quebraDeLinha(doc, `Descrição: ${descricao}`, 30, y, 160);
+            doc.setFont("helvetica", "bold");
+            doc.text("Descrição:", 30, y);
+
+            // Define a fonte normal para o texto da descrição
+            doc.setFont("helvetica", "normal");
+            y = quebraDeLinha(doc, descricao, 50, y, 150); // Ajusta para o texto da descrição com quebras de linha automáticas
             y += 5;
         }
 
